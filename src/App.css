@@ -1,0 +1,11 @@
+#foodImage {
+  height: 90%;
+  width: 94%;
+  position: relative;
+  margin-top: 3%;
+  margin-left: 2.8%;
+  border: 0px solid black;
+  border-radius: 4vw 4vw 0% 0%;
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}
