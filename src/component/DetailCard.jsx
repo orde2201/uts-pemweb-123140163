@@ -1,15 +1,11 @@
 import "./componentStyle.css";
 
-function CardResep({ data, image }) {
+// contoh sederhana Card
+export default function Card({ data, image, onClick }) {
   return (
-    <div className="card">
-      {image && <img src={image} className="cardImage" alt={data} />}
-      <div className="container">
-        <h4>
-          <b>{data}</b>
-        </h4>
-        <p>Deskripsi makanan</p>
-      </div>
+    <div className="card" onClick={onClick} style={{ cursor: "pointer" }}>
+      <img src={image} alt={data} className="cardImage" />
+      <h3>{data}</h3>
     </div>
   );
 }

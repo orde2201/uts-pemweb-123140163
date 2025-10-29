@@ -17,12 +17,3 @@
   flex-wrap: wrap;
   flex-direction: row;
 }
-
-@media (max-width: 560px) {
-  .cardContainer {
-  }
-  .card {
-    width: 40%;
-    margin-left: 6vw;
-  }
-}

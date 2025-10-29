@@ -1,4 +1,9 @@
-/*header*/
+/*header random effect*/
+.articleResep {
+  background-color: red;
+}
+
+/*header normal*/
 header {
   display: flex;
   flex-direction: row;
@@ -30,9 +35,9 @@ header {
   background-color: #f0f0f0;
   color: #000;
   outline: none;
-  width: 100%;
+  width: 33%;
   height: 5vw;
-  margin-left: 17.5vw;
+  margin-left: 10.5vw;
 }
 
 #home {
@@ -68,11 +73,39 @@ header {
   padding: 4px 9px;
 }
 
-@media (max-width: 560px) {
+@media (max-width: 600px) {
   .cardContainer {
   }
   .card {
     width: 40%;
     margin-left: 6vw;
   }
+}
+
+/*article css*/
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh; /* Batasi tinggi modal agar tidak terlalu besar */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Supaya bagian luar konten tidak spill */
+}
+.modal-body {
+  flex: 1; /* Ambil ruang sisa di dalam modal-content */
+  overflow-y: auto; /* Aktifkan scroll vertikal jika konten terlalu panjang */
+  padding-right: 10px; /* Untuk memberi ruang scrollbar agar tidak nutup konten */
 }
