@@ -1,16 +1,62 @@
-# React + Vite
+# 🍳 Dapoerku — Website Resep Makanan
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Nama:** I Gede Krisna Yoga Saputra  
+**NIM:** 123140163  
+**KELAS:** RB
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📖 Deskripsi
+**Dapoerku** adalah website pencarian resep makanan berbasis **ReactJS** yang terintegrasi dengan API publik [TheMealDB](https://www.themealdb.com/api.php).  
+Pengguna dapat:
+- Mencari resep makanan berdasarkan nama.
+- Menampilkan resep secara acak (Random).
+- Memfilter makanan berdasarkan **kategori** atau **negara asal**.
+- Melihat detail resep lengkap (bahan, takaran, dan instruksi).
+- Mengakses halaman **Admin** untuk melihat daftar semua makanan dari A-Z dan memfilter berdasarkan kategori atau negara.
 
-## React Compiler
+Proyek ini dibuat untuk memenuhi tugas **UTS Pemrograman Web**.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🧠 Teknologi yang Digunakan
+- **HTML5** dengan struktur semantik dan atribut aksesibilitas.
+- **Modern JavaScript (ES6+)**: arrow functions, template literals, destructuring, async/await.
+- **ReactJS**: functional components, props, state management (useState, useEffect).
+- **Axios** untuk integrasi API.
+- **Vite** sebagai bundler.
+- **CSS Modular** untuk styling komponen.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## ⚙️ Instalasi dan Cara Menjalankan
+
+### 1️⃣ Clone Repository
+```bash
+git clone https://github.com/orde2201/uts-pemweb-123140163.git
+cd uts-pemweb-123140163
+```
+
+### 2️⃣ Install Dependencies
+```bash
+npm install
+
+```
+### 3️⃣ Jalankan Aplikasi di Localhost
+```bash
+npm run dev
+
+```
+
+### 4️⃣ Buka Localhost yang di tampilkan
+contoh :
+```bash
+http://localhost:5173
+
+```
+
+## 🌐 Link Deployment
+
+Aplikasi sudah dideploy di Vercel dan dapat diakses melalui tautan berikut:
+
+🔗 https://uts-pemweb-123140163.vercel.app
