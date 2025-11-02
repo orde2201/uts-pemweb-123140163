@@ -6,6 +6,7 @@ import Card from "./component/DetailCard.jsx";
 import Header from "./component/Header.jsx";
 import FloatWindow from "./component/floatwindow.jsx";
 import Footer from "./component/footer";
+import Admin from "./page/admin.jsx";
 
 export default function App() {
   const [meals, setMeals] = useState([]);
