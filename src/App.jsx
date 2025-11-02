@@ -149,14 +149,24 @@ export default function App() {
 
       <section>
         <img src={foodImage} id="foodImage" alt="Food" />
-
+        <h1
+          style={{
+            marginLeft: "40%",
+            justifyContent: "center",
+            color: "#555",
+            fontSize: "5vw",
+            marginTop: "9vw",
+          }}
+        >
+          Recipe
+        </h1>
         {activeFilter && (
           <p
             style={{
               marginLeft: "3.5vw",
               color: "#555",
               fontSize: "2vw",
-              marginTop: "18vw",
+              marginTop: "1vw",
             }}
           >
             Menampilkan hasil berdasarkan{" "}

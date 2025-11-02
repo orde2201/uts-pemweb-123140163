@@ -103,16 +103,26 @@ body {
   color: #000;
 }
 
+@media (max-width: 600px) {
+  .option {
+    font-size: 2vw;
+    border-radius: 2vw;
+  }
+  .search-input {
+    font-size: 3vw;
+  }
+}
 /*card*/
 /*styling card */
 .card {
   box-shadow: 0 4px 8px 0;
   width: 20%;
-  border-radius: 1vw;
+  border-radius: 3vw;
   margin-left: 3vw;
   margin-top: 8vw;
   margin-right: 1.5vw;
   font-size: 1.3vw;
+  background-color: white;
 }
 .card > .cardImage {
   width: 100%;
@@ -128,7 +138,7 @@ body {
 }
 #tagsCard > .tags {
   margin-left: 1.5vw;
-  background-color: #a72703;
+  background-color: #cca45f;
 
   border-radius: 1vw;
 
