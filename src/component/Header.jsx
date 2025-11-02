@@ -10,6 +10,8 @@ export default function Header({
   onRandomClick,
 }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedArea, setSelectedArea] = useState("");
   const [categories, setCategories] = useState([]);
   const [areas, setAreas] = useState([]);
   const BASE_URL = import.meta.env.VITE_API_URL;
@@ -55,9 +57,16 @@ export default function Header({
 
         <select
           className="option"
-          onChange={(e) => onFilterCategory(e.target.value)}
+          value={selectedCategory}
+          onChange={(e) => {
+            const value = e.target.value;
+            setSelectedCategory(value);
+            onFilterCategory(value);
+          }}
         >
-          <option value="">Kategori</option>
+          <option value="" disabled hidden>
+            Kategori
+          </option>
           {categories.map((cat) => (
             <option key={cat} value={cat}>
               {cat}
@@ -67,16 +76,22 @@ export default function Header({
 
         <select
           className="option"
-          onChange={(e) => onFilterArea(e.target.value)}
+          value={selectedArea}
+          onChange={(e) => {
+            const value = e.target.value;
+            setSelectedArea(value);
+            onFilterArea(value);
+          }}
         >
-          <option value="">Country</option>
+          <option value="" disabled hidden>
+            Country
+          </option>
           {areas.map((area) => (
             <option key={area} value={area}>
               {area}
             </option>
           ))}
         </select>
-
         {/* ====== Pencarian ====== */}
         <form onSubmit={handleSearchSubmit} className="search-container">
           <input

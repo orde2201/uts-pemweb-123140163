@@ -3,6 +3,13 @@
   background-color: red;
 }
 
+.modal-body p {
+  white-space: pre-line; /* ubah \n jadi baris baru di tampilan */
+  line-height: 1.6;
+  color: #333;
+  font-size: 1rem;
+}
+
 /* ===== Global Font ===== */
 body {
   font-family: "Poppins", sans-serif;
@@ -152,7 +159,7 @@ body {
   background-color: white;
   padding: 20px;
   border-radius: 12px;
-  max-width: 600px;
+  max-width: 80%;
   width: 90%;
   max-height: 80vh; /* Batasi tinggi modal agar tidak terlalu besar */
   display: flex;
@@ -163,4 +170,35 @@ body {
   flex: 1; /* Ambil ruang sisa di dalam modal-content */
   overflow-y: auto; /* Aktifkan scroll vertikal jika konten terlalu panjang */
   padding-right: 10px; /* Untuk memberi ruang scrollbar agar tidak nutup konten */
+}
+
+/* ===== FOOTER STYLE ===== */
+.footer {
+  background-color: #a72703; /* selaras dengan warna hangat header */
+  color: white;
+  text-align: center;
+  padding: 1.5rem 0;
+  margin-top: 7vw;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.footer-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.footer a {
+  color: #fff5e6;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
 }
