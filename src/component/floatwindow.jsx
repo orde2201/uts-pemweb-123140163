@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import "./componentStyle.css";
 export default function FloatWindow({ title, children, onClose }) {
-  // 🔒 Mencegah scroll body saat modal terbuka
+  //  Mencegah scroll body saat modal terbuka
   useEffect(() => {
     document.body.style.overflow = "hidden"; // nonaktifkan scroll body
     return () => {

@@ -14,7 +14,7 @@ export default function Admin() {
   const [selectedArea, setSelectedArea] = useState("");
   const BASE_URL = import.meta.env.VITE_API_URL;
 
-  // 🥘 Ambil semua makanan dari A-Z saat awal
+  //  Ambil semua makanan dari A-Z saat awal
   useEffect(() => {
     const fetchAllMeals = async () => {
       try {
@@ -51,7 +51,7 @@ export default function Admin() {
     fetchFilters();
   }, []);
 
-  // 🧮 Filter berdasarkan kategori atau negara
+  //  Filter berdasarkan kategori atau negara
   useEffect(() => {
     let filtered = allMeals;
 

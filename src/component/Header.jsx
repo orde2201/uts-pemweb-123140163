@@ -1,4 +1,3 @@
-// src/component/Header.jsx
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./componentStyle.css";
@@ -16,57 +15,73 @@ export default function Header({
   const [areas, setAreas] = useState([]);
   const BASE_URL = import.meta.env.VITE_API_URL;
 
+  // 🔹 Ambil kategori & area saat komponen dimuat
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}categories.php`)
-      .then((res) => {
-        if (res.data.categories) {
-          setCategories(res.data.categories.map((c) => c.strCategory));
-        }
-      })
-      .catch((err) => console.error("Error fetch categories:", err));
+    const fetchData = async () => {
+      try {
+        const [catRes, areaRes] = await Promise.all([
+          axios.get(`${BASE_URL}categories.php`),
+          axios.get(`${BASE_URL}list.php?a=list`),
+        ]);
 
-    axios
-      .get(`${BASE_URL}list.php?a=list`)
-      .then((res) => {
-        if (res.data.meals) {
-          setAreas(res.data.meals.map((a) => a.strArea));
+        if (catRes.data.categories) {
+          setCategories(catRes.data.categories.map((c) => c.strCategory));
         }
-      })
-      .catch((err) => console.error("Error fetch areas:", err));
-  }, []);
 
-  const handleSearchChange = (e) => setSearchTerm(e.target.value);
+        if (areaRes.data.meals) {
+          setAreas(areaRes.data.meals.map((a) => a.strArea));
+        }
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      }
+    };
+
+    fetchData();
+  }, [BASE_URL]);
+
+  // 🔹 Handler pencarian
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    onSearch(searchTerm.trim());
+    if (searchTerm.trim()) onSearch(searchTerm.trim());
+  };
+
+  // 🔹 Handler filter kategori
+  const handleCategoryChange = (e) => {
+    const value = e.target.value;
+    setSelectedCategory(value);
+    setSelectedArea(""); // reset country jika pilih kategori
+    if (value) onFilterCategory(value);
+  };
+
+  // 🔹 Handler filter country
+  const handleAreaChange = (e) => {
+    const value = e.target.value;
+    setSelectedArea(value);
+    setSelectedCategory(""); // reset kategori jika pilih country
+    if (value) onFilterArea(value);
   };
 
   return (
     <header className="header">
-      {/* ====== Nama Website ====== */}
+      {/* ====== Logo ====== */}
       <div className="logo">
         🍳 <span>Dapoerku</span>
       </div>
 
-      {/* ====== Tombol dan Filter ====== */}
+      {/* ====== Tombol & Filter ====== */}
       <div className="header-controls">
+        {/* Tombol random */}
         <button id="random" className="option" onClick={onRandomClick}>
           Random
         </button>
 
+        {/* Dropdown kategori */}
         <select
           className="option"
           value={selectedCategory}
-          onChange={(e) => {
-            const value = e.target.value;
-            setSelectedCategory(value);
-            onFilterCategory(value);
-          }}
+          onChange={handleCategoryChange}
         >
-          <option value="" disabled hidden>
-            Kategori
-          </option>
+          <option value="">Pilih Kategori</option>
           {categories.map((cat) => (
             <option key={cat} value={cat}>
               {cat}
@@ -74,31 +89,27 @@ export default function Header({
           ))}
         </select>
 
+        {/* Dropdown country */}
         <select
           className="option"
           value={selectedArea}
-          onChange={(e) => {
-            const value = e.target.value;
-            setSelectedArea(value);
-            onFilterArea(value);
-          }}
+          onChange={handleAreaChange}
         >
-          <option value="" disabled hidden>
-            Country
-          </option>
+          <option value="">Pilih Country</option>
           {areas.map((area) => (
             <option key={area} value={area}>
               {area}
             </option>
           ))}
         </select>
-        {/* ====== Pencarian ====== */}
+
+        {/* Form pencarian */}
         <form onSubmit={handleSearchSubmit} className="search-container">
           <input
             type="text"
             placeholder="Cari resep..."
             value={searchTerm}
-            onChange={handleSearchChange}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"
           />
           <button type="submit" className="search-btn" aria-label="Search">

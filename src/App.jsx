@@ -1,135 +1,141 @@
+// src/App.jsx
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
+
 import foodImage from "./assets/makanan.png";
 import Card from "./component/DetailCard.jsx";
 import Header from "./component/Header.jsx";
 import FloatWindow from "./component/floatwindow.jsx";
-import Footer from "./component/footer";
-import Admin from "./page/admin.jsx";
+import Footer from "./component/footer.jsx";
 
 export default function App() {
+  // 🧠 State utama
   const [meals, setMeals] = useState([]);
   const [modalMeal, setModalMeal] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [activeFilter, setActiveFilter] = useState(""); // bisa "category" atau "area"
-  const [filterName, setFilterName] = useState(""); // nama kategori / negara
+  const [activeFilter, setActiveFilter] = useState(""); // category | area | search
+  const [filterName, setFilterName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const BASE_URL = import.meta.env.VITE_API_URL;
 
-  // ambil random saat awal
+  // 🍳 Ambil 4 random meal di awal
   useEffect(() => {
     const fetchRandom = async () => {
       try {
-        const promises = Array(4)
-          .fill(null)
-          .map(() => axios.get(`${BASE_URL}random.php`));
-        const responses = await Promise.all(promises);
-        const data = responses.map((res) => res.data.meals[0]);
-        setMeals(data);
+        setLoading(true);
+        const requests = Array.from({ length: 4 }, () =>
+          axios.get(`${BASE_URL}random.php`),
+        );
+        const responses = await Promise.all(requests);
+        setMeals(responses.map((r) => r.data.meals[0]));
       } catch (err) {
-        console.error("Error fetch random:", err);
+        setError("Gagal memuat data awal.");
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchRandom();
-  }, []);
 
+    fetchRandom();
+  }, [BASE_URL]);
+
+  // 🔍 Cari resep berdasarkan nama
   const handleSearch = async (term) => {
-    if (!term) {
-      setMeals([]);
-      return;
-    }
+    if (!term) return setMeals([]);
     try {
-      const res = await axios.get(
+      setLoading(true);
+      const { data } = await axios.get(
         `${BASE_URL}search.php?s=${encodeURIComponent(term)}`,
       );
-      setMeals(res.data.meals || []);
+      setMeals(data.meals || []);
       setActiveFilter("search");
       setFilterName(term);
-    } catch (err) {
-      console.error("Error search:", err);
-      setMeals([]);
+    } catch {
+      setError("Terjadi kesalahan saat mencari resep.");
+    } finally {
+      setLoading(false);
     }
   };
 
+  // 🏷️ Filter kategori
   const handleFilterCategory = async (category) => {
-    if (!category) {
-      setMeals([]);
-      return;
-    }
+    if (!category) return setMeals([]);
     try {
-      const res = await axios.get(
+      setLoading(true);
+      const { data } = await axios.get(
         `${BASE_URL}filter.php?c=${encodeURIComponent(category)}`,
       );
-      const mealList = res.data.meals || [];
 
-      // Ambil detail setiap resep agar punya kategori & area lengkap
+      // Ambil detail tiap meal
       const detailedMeals = await Promise.all(
-        mealList.slice(0, 10).map(async (m) => {
-          const detailRes = await axios.get(
+        (data.meals || []).slice(0, 10).map(async (m) => {
+          const { data } = await axios.get(
             `${BASE_URL}lookup.php?i=${m.idMeal}`,
           );
-          return detailRes.data.meals[0];
+          return data.meals[0];
         }),
       );
 
       setMeals(detailedMeals);
       setActiveFilter("category");
       setFilterName(category);
-    } catch (err) {
-      console.error("Error filter category:", err);
-      setMeals([]);
+    } catch {
+      setError("Gagal memfilter berdasarkan kategori.");
+    } finally {
+      setLoading(false);
     }
   };
 
+  // 🌍 Filter negara
   const handleFilterArea = async (area) => {
-    if (!area) {
-      setMeals([]);
-      return;
-    }
+    if (!area) return setMeals([]);
     try {
-      const res = await axios.get(
+      setLoading(true);
+      const { data } = await axios.get(
         `${BASE_URL}filter.php?a=${encodeURIComponent(area)}`,
       );
-      const mealList = res.data.meals || [];
 
-      // Ambil detail setiap resep agar punya kategori & area lengkap
       const detailedMeals = await Promise.all(
-        mealList.slice(0, 10).map(async (m) => {
-          const detailRes = await axios.get(
+        (data.meals || []).slice(0, 10).map(async (m) => {
+          const { data } = await axios.get(
             `${BASE_URL}lookup.php?i=${m.idMeal}`,
           );
-          return detailRes.data.meals[0];
+          return data.meals[0];
         }),
       );
 
       setMeals(detailedMeals);
       setActiveFilter("area");
       setFilterName(area);
-    } catch (err) {
-      console.error("Error filter area:", err);
-      setMeals([]);
+    } catch {
+      setError("Gagal memfilter berdasarkan negara.");
+    } finally {
+      setLoading(false);
     }
   };
 
+  // 🎲 Ambil random satu meal untuk modal
   const handleRandomClick = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}random.php`);
-      const meal = res.data.meals[0];
-      setModalMeal(meal);
+      const { data } = await axios.get(`${BASE_URL}random.php`);
+      setModalMeal(data.meals[0]);
       setModalOpen(true);
-    } catch (err) {
-      console.error("Error random:", err);
+    } catch {
+      setError("Gagal memuat resep acak.");
     }
   };
 
+  // 📖 Buka detail dari kartu
   const handleCardClick = async (mealId) => {
     try {
-      const res = await axios.get(`${BASE_URL}lookup.php?i=${mealId}`);
-      const meal = res.data.meals[0];
-      setModalMeal(meal);
+      const { data } = await axios.get(`${BASE_URL}lookup.php?i=${mealId}`);
+      setModalMeal(data.meals[0]);
       setModalOpen(true);
-    } catch (err) {
-      console.error("Error lookup meal:", err);
+    } catch {
+      setError("Gagal memuat detail resep.");
     }
   };
 
@@ -140,6 +146,7 @@ export default function App() {
 
   return (
     <div>
+      {/* 🧭 Header */}
       <Header
         onSearch={handleSearch}
         onFilterCategory={handleFilterCategory}
@@ -147,28 +154,13 @@ export default function App() {
         onRandomClick={handleRandomClick}
       />
 
-      <section>
+      {/* 🎨 Section utama */}
+      <main>
         <img src={foodImage} id="foodImage" alt="Food" />
-        <h1
-          style={{
-            marginLeft: "40%",
-            justifyContent: "center",
-            color: "#555",
-            fontSize: "5vw",
-            marginTop: "9vw",
-          }}
-        >
-          Recipe
-        </h1>
+        <h1 className="title">Recipe</h1>
+
         {activeFilter && (
-          <p
-            style={{
-              marginLeft: "3.5vw",
-              color: "#555",
-              fontSize: "2vw",
-              marginTop: "1vw",
-            }}
-          >
+          <p className="subtitle">
             Menampilkan hasil berdasarkan{" "}
             <strong>
               {activeFilter === "category"
@@ -181,33 +173,43 @@ export default function App() {
           </p>
         )}
 
-        <article className="cardContainer">
-          {meals.length > 0 ? (
-            meals.map((meal) => (
-              <Card
-                key={meal.idMeal}
-                data={meal.strMeal}
-                image={meal.strMealThumb}
-                category={meal.strCategory || "Tidak diketahui"}
-                area={meal.strArea || "Tidak diketahui"}
-                onClick={() => handleCardClick(meal.idMeal)}
-              />
-            ))
-          ) : (
-            <p
-              style={{
-                marginLeft: "3.5vw",
-                color: "#555",
-                fontSize: "3vw",
-                marginTop: "5vw",
-              }}
-            >
-              Resep tidak ditemukan.
-            </p>
-          )}
-        </article>
-      </section>
+        {/* ⚙️ Loading & Error */}
+        {loading && <p className="status">Memuat data...</p>}
+        {error && <p className="status error">{error}</p>}
 
+        {/* 🧾 Daftar resep */}
+        <section className="cardContainer">
+          {!loading && meals.length > 0
+            ? meals.map(
+                ({ idMeal, strMeal, strMealThumb, strCategory, strArea }) => (
+                  <Card
+                    key={idMeal}
+                    data={strMeal}
+                    image={strMealThumb}
+                    category={strCategory || "Tidak diketahui"}
+                    area={strArea || "Tidak diketahui"}
+                    onClick={() => handleCardClick(idMeal)}
+                  />
+                ),
+              )
+            : !loading && (
+                <p
+                  className="status"
+                  style={{
+                    fontSize: "1.5vw",
+                    color: "#555",
+                    textAlign: "center",
+                    marginLeft: "41vw",
+                  }}
+                >
+                  {" "}
+                  Resep tidak ditemukan.
+                </p>
+              )}
+        </section>
+      </main>
+
+      {/* 💬 Modal Detail */}
       {modalOpen && modalMeal && (
         <FloatWindow title={modalMeal.strMeal} onClose={handleCloseModal}>
           <img
@@ -229,17 +231,20 @@ export default function App() {
                 ingredient: modalMeal[`strIngredient${i}`],
                 measure: modalMeal[`strMeasure${i}`],
               }))
-              .filter((item) => item.ingredient)
-              .map((item, idx) => (
+              .filter(({ ingredient }) => ingredient)
+              .map(({ ingredient, measure }, idx) => (
                 <li key={idx}>
-                  {item.ingredient} — {item.measure}
+                  {ingredient} — {measure}
                 </li>
               ))}
           </ul>
+
           <h3>Instruksi:</h3>
-          <p>{modalMeal.strInstructions}</p>
+          <p style={{ whiteSpace: "pre-line" }}>{modalMeal.strInstructions}</p>
         </FloatWindow>
       )}
+
+      {/* 👣 Footer */}
       <Footer />
     </div>
   );

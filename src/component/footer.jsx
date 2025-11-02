@@ -7,9 +7,6 @@ export default function Footer() {
       <div className="footer-content">
         <p>© 2025 Yoga. All rights reserved.</p>
         <p>
-          No HP: <a href="tel:085609159211">085609159211</a>
-        </p>
-        <p>
           Instagram:{" "}
           <a
             href="https://instagram.com/yoga_pepsodent"
