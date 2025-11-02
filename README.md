@@ -31,27 +31,33 @@ Proyek ini dibuat untuk memenuhi tugas **UTS Pemrograman Web**.
 
 ## ⚙️ Instalasi dan Cara Menjalankan
 
-### 1️⃣ Clone Repository
+### 1 Clone Repository
 ```bash
 git clone https://github.com/orde2201/uts-pemweb-123140163.git
 cd uts-pemweb-123140163
 ```
 
-### 2️⃣ Install Dependencies
+### 2 Install Dependencies
 ```bash
 npm install
 
 ```
-### 3️⃣ Jalankan Aplikasi di Localhost
+### 3 Jalankan Aplikasi di Localhost
 ```bash
 npm run dev
 
 ```
 
-### 4️⃣ Buka Localhost yang di tampilkan
+### 4 Buka Localhost yang di tampilkan
 contoh :
 ```bash
 http://localhost:5173
+
+```
+### 5 Membuka page Admin untuk melihat seluruh daftar resep
+contoh :
+```bash
+http://localhost:5173/admin
 
 ```
 
@@ -60,3 +66,7 @@ http://localhost:5173
 Aplikasi sudah dideploy di Vercel dan dapat diakses melalui tautan berikut:
 
 🔗 https://uts-pemweb-123140163.vercel.app
+
+Untuk bagian admin dapat diakses melalui link berikut:
+
+🔗 https://uts-pemweb-123140163.vercel.app/admin
